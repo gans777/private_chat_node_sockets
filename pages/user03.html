@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+</head>
+<body>
+<span user="user03">user03</span>
+<span class="test-messages">--</span>
+<div>
+    <select class="go-to-user">
+        <option>user01</option>
+        <option>user02</option>
+        <option>user03</option>
+    </select>
+    <input type="text" placeholder="messages" class="write-mess">
+    <button class="go">отправить</button>
+</div>
+<script  src = "/socket.io/socket.io.js" ></script>
+<script>
+    var name_user = $('[user]').attr('user');
+    console.log(name_user);
+    var socket = io ();
+    socket.emit('i_am',name_user);
+
+    socket.on('messages', function (messages) {
+        console.log(messages);
+    });
+
+    $('button.go').click(function () {
+        var user = $('select.go-to-user').val();
+        var messages = $('input.write-mess').val();
+        socket.emit('new_mess',user, messages);
+    })
+</script>
+</body>
+</html>
